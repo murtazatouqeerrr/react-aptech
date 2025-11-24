@@ -1,0 +1,41 @@
+/* Minimalist Navbar */
+.navbar {
+  background: #ffffff;
+  padding: 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+/* Nav links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+/* Individual link */
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-size: 17px;
+  padding: 6px 8px;
+  transition: color 0.2s ease;
+}
+
+/* Hover effect */
+.nav-links a:hover {
+  color: #000;
+}
