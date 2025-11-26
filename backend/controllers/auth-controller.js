@@ -42,7 +42,8 @@ const register = async (req,res)=>{
 }
 const login = async (req,res)=>{
     try {
-        const {email,password} = req.body;
+     const { email, password } = req.query;
+
         const UserExist  = await User.findOne({email});
         if (!UserExist){
             res.status(400).json({msg : "invalid credentials.."})
