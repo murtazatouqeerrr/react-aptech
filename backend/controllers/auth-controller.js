@@ -4,6 +4,7 @@ const User = require("../models/auth-model");
 const bcrypt = require("bcryptjs")
 
 
+
 const home = async (req,res)=>{
     try {
         res.status(200).send("welcome to home page")
@@ -14,6 +15,10 @@ const home = async (req,res)=>{
         
     }
 }
+
+
+
+
 const register = async (req,res)=>{
     try {
 
@@ -52,8 +57,13 @@ const login = async (req,res)=>{
        
        if (user){
         res.status(200).json({msg : "Login Succesfull",
-            token: await UserExist.generateToken()
-        })
+            token: await UserExist.generateToken(),
+            
+        
+        }
+    )
+   
+        
        }
         else{
 

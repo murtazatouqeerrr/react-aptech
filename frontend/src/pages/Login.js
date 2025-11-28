@@ -1,19 +1,18 @@
-
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function Login() {
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
-
     email: "",
     password: ""
-   
   });
 
-  const handleInput =  (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-
+  const handleInput = (e) => {
+    const { name, value } = e.target;
     setUser({
       ...user,
       [name]: value
@@ -21,53 +20,63 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const query = new URLSearchParams({
-    email: user.email,
-    password: user.password
-  }).toString();
+    const query = new URLSearchParams({
+      email: user.email,
+      password: user.password
+    }).toString();
 
-  const response = await fetch(`http://localhost:8000/login?${query}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
+    const response = await fetch(`http://localhost:8000/login?${query}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const respData = await response.json();
+
+    if (response.ok) {
+      alert(respData.msg);
+      navigate("/");
+    } else {
+      alert("login failed: " + respData.msg);
     }
-  });
-
-  const respData = await response.json();
-
-  if (response.ok) {
-    alert(respData.msg);
-  } else {
-    alert("login failed: " + respData.msg);
-  }
-};
+  };
 
   return (
     <>
-    <div>
-      <h1>Welcome to Login page</h1>
-    </div>
+      <h1 className="mb-4 p-4">Welcome to Login page</h1>
 
-    <form onSubmit={handleSubmit}>
-      <input
-          type='text'
-          name='email'
-          value={user.email}
-          placeholder='Enter Email'
-          onChange={handleInput}
-        />
-           <input
-          type='text'
-          name='password'
-          value={user.password}
-          placeholder='Enter Password'
-          onChange={handleInput}
-        />
-<input type='submit' value='Submit'/>
-    </form>
-  </>)
+      <Form onSubmit={handleSubmit} style={{ maxWidth: "400px" }} className='p-4'>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control 
+            type="email" 
+            name="email"
+            value={user.email}
+            placeholder="Enter email"
+            onChange={handleInput}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control 
+            type="password" 
+            name="password"
+            value={user.password}
+            placeholder="Password"
+            onChange={handleInput}
+          />
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
+    </>
+  );
 }
 
-export default Login
+export default Login;

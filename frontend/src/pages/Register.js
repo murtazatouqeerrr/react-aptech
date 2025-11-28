@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function Register() {
   const [user, setUser] = useState({
@@ -8,10 +10,8 @@ function Register() {
     phone: ""
   });
 
-  const handleInput = async (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-
+  const handleInput = (e) => {
+    const { name, value } = e.target;
     setUser({
       ...user,
       [name]: value
@@ -40,45 +40,57 @@ function Register() {
 
   return (
     <>
-      <div>
-        <h1>Welcome to Register page</h1>
-      </div>
+      <h1 className="mb-4 p-4">Welcome to Register page</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          name='username'
-          value={user.username}
-          placeholder='Enter Username'
-          onChange={handleInput}
-        />
+      <Form onSubmit={handleSubmit} style={{ maxWidth: "400px" }} className='p-4'>
+        <Form.Group className="mb-3 " controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control 
+            type="text"
+            name="username"
+            value={user.username}
+            placeholder="Enter Username"
+            onChange={handleInput}
+          />
+        </Form.Group>
 
-        <input
-          type='text'
-          name='email'
-          value={user.email}
-          placeholder='Enter Email'
-          onChange={handleInput}
-        />
+        <Form.Group className="mb-3" controlId="formEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control 
+            type="email"
+            name="email"
+            value={user.email}
+            placeholder="Enter Email"
+            onChange={handleInput}
+          />
+        </Form.Group>
 
-        <input
-          type='text'
-          name='password'
-          value={user.password}
-          placeholder='Enter Password'
-          onChange={handleInput}
-        />
+        <Form.Group className="mb-3" controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control 
+            type="password"
+            name="password"
+            value={user.password}
+            placeholder="Enter Password"
+            onChange={handleInput}
+          />
+        </Form.Group>
 
-        <input
-          type='text'
-          name='phone'
-          value={user.phone}
-          placeholder='Enter Phone'
-          onChange={handleInput}
-        />
+        <Form.Group className="mb-3" controlId="formPhone">
+          <Form.Label>Phone</Form.Label>
+          <Form.Control 
+            type="text"
+            name="phone"
+            value={user.phone}
+            placeholder="Enter Phone"
+            onChange={handleInput}
+          />
+        </Form.Group>
 
-        <input type='submit' value='Register' />
-      </form>
+        <Button variant="primary" type="submit">
+          Register
+        </Button>
+      </Form>
     </>
   );
 }
