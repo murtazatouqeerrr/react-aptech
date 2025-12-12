@@ -65,6 +65,21 @@ const contact = async (req,res) => {
     
 }
 
+const getContact  =  async (req,res) => {
+
+
+try {
+const contact = await Contact.find({},"username email message")
+
+return res.status(200).json ({msg: "All contact", contact})
+
+} catch (error) {
+    console.log(error);
+    
+}
+
+}
+
 
 
 const login = async (req,res)=>{
@@ -101,4 +116,4 @@ res.status(400).json({msg : "invalid credentials.."})
     }
 }
 
-module.exports = {home,register,login,contact}
+module.exports = {home,register,login,contact,getContact}
