@@ -38,10 +38,15 @@ function Login() {
 
     if (response.ok) {
       alert(respData.msg);
+      localStorage.setItem("token", respData.token)
+localStorage.setItem("username", respData.username)
       navigate("/");
+      
     } else {
       alert("login failed: " + respData.msg);
     }
+
+   
   };
 
   return (

@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import About from './pages/About';
 import Navbarr from './components/Navbarr';
 import Services from './pages/Services';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<About />} />
         <Route path='/services' element={<Services />} />
+        <Route path='/contact' element={<Contact />} />
       </Routes>
     </BrowserRouter>
   );

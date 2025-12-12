@@ -1,7 +1,8 @@
 const { request } = require("express");
 const User = require("../models/auth-model");
 
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const Contact = require("../models/auth-contact");
 
 
 
@@ -45,6 +46,27 @@ const register = async (req,res)=>{
         
     }
 }
+
+
+
+const contact = async (req,res) => {
+
+    try {
+
+        const {username,email,message} = req.body;
+
+        const contactCreated =  await Contact.create({username,email,message})
+        return res.status(201).json ({msg: "Contact created succesfully", contactCreated})
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+    
+}
+
+
+
 const login = async (req,res)=>{
     try {
      const { email, password } = req.query;
@@ -58,6 +80,7 @@ const login = async (req,res)=>{
        if (user){
         res.status(200).json({msg : "Login Succesfull",
             token: await UserExist.generateToken(),
+            username: await UserExist.username
             
         
         }
@@ -78,4 +101,4 @@ res.status(400).json({msg : "invalid credentials.."})
     }
 }
 
-module.exports = {home,register,login}
+module.exports = {home,register,login,contact}
