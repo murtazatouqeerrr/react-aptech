@@ -81,6 +81,20 @@ return res.status(200).json ({msg: "All contact", contact})
 }
 
 
+const getUsers = async (req,res) => {
+    try {
+
+        const users = await User.find()
+        return res.status(200).json ({msg: "All Users", users})
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+
+
 
 const login = async (req,res)=>{
     try {
@@ -116,4 +130,4 @@ res.status(400).json({msg : "invalid credentials.."})
     }
 }
 
-module.exports = {home,register,login,contact,getContact}
+module.exports = {home,register,login,contact,getContact,getUsers}

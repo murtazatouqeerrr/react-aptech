@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { AuthContext } from '../store/auth';
 
 function Login() {
   const navigate = useNavigate();
+  const { storeTokenInLS } = React.useContext(AuthContext);
 
   const [user, setUser] = useState({
     email: "",
@@ -36,13 +38,18 @@ function Login() {
 
     const respData = await response.json();
 
-    if (response.ok) {
-      alert(respData.msg);
-      localStorage.setItem("token", respData.token)
-localStorage.setItem("username", respData.username)
-      navigate("/");
-      
-    } else {
+ if (response.ok) {
+  alert(respData.msg);
+
+  storeTokenInLS(respData.token);
+ 
+  
+
+
+
+  navigate("/");
+}
+   else {
       alert("login failed: " + respData.msg);
     }
 
@@ -57,7 +64,7 @@ localStorage.setItem("username", respData.username)
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control 
-            type="email" 
+            type="text" 
             name="email"
             value={user.email}
             placeholder="Enter email"

@@ -8,6 +8,7 @@ import About from './pages/About';
 import Navbarr from './components/Navbarr';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/services' element={<Services />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/admin' element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
