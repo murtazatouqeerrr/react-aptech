@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
+import { useAuth } from '../store/auth.js'
 
 function Contact() {
-  
-const [contact, setContact] = useState({
-  username: "",
-  email: "",
-  message: ""
-});
+  const { user } = useAuth();
 
-const handleInput = (e) => {
-  setContact({
-    ...contact,
-    [e.target.name]: e.target.value
+  const [contact, setContact] = useState({
+    username: "",
+    email: "",
+    message: ""
   });
-};
 
   
+  useEffect(() => {
+    if (user) {
+      setContact((prev) => ({
+        ...prev,
+        username: user.username || "",
+        email: user.email || ""
+      }));
+    }
+  }, [user]);
+
+  const handleInput = (e) => {
+    setContact({
+      ...contact,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +46,7 @@ const handleInput = (e) => {
       const respData = await response.json();
       alert(respData.msg);
     } else {
-      alert("Contact Create  failed");
+      alert("Contact Create failed");
     }
   };
 
@@ -67,8 +77,6 @@ const handleInput = (e) => {
           />
         </Form.Group>
 
-        
-        
         <Form.Group className="mb-3" controlId="formPhone">
           <Form.Label>Message</Form.Label>
           <Form.Control 

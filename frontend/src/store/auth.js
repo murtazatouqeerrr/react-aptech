@@ -1,22 +1,60 @@
-import { useContext, createContext } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-        const storeTokenInLS  =  (serverToken) => {
-            return localStorage.setItem("token", serverToken);
-        }
-        return (
-            <AuthContext.Provider value={{storeTokenInLS}}>
-                {children}
-            </AuthContext.Provider>
-        )
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState("");
+
+  
+  const storeTokenInLS = (serverToken) => {
+    localStorage.setItem("token", serverToken);
+  };
+
+  
+  const getTokenFromLS = () => {
+    return localStorage.getItem("token");
+  };
+
+  
+  const userAuthentication = async () => {
+    const token = getTokenFromLS();
+    if (!token) return;
+
+    try {
+      const response = await fetch("http://localhost:8000/user", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.msg);
+      }
+    } catch (error) {
+      console.error("Authentication error:", error);
     }
-        export const useAuth = () => {
-            const AuthContextValue = useContext(AuthContext);
-            if(!AuthContextValue){
-                throw new Error("useAuth must be used within an AuthProvider");
-            }
-            return AuthContextValue;
-        }
+  };
+
+  
+  useEffect(() => {
+    userAuthentication();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ storeTokenInLS, user, setUser, userAuthentication }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

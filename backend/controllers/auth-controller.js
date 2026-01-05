@@ -130,4 +130,15 @@ res.status(400).json({msg : "invalid credentials.."})
     }
 }
 
-module.exports = {home,register,login,contact,getContact,getUsers}
+const user = async (req,res)=>{
+    try {
+        const userData = req.user;
+        res.status(200).json({msg: userData})
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+module.exports = {home,register,login,contact,getContact,getUsers,user}
